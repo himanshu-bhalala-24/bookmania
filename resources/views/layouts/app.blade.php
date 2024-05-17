@@ -13,6 +13,13 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        <!-- Styles -->
+        <link rel="stylesheet" href="{{asset('css/font-awesome/all.min.css')}}">
+        <link rel="stylesheet" href="{{asset('css/bootstrap/all.min.css')}}">
+        <link rel="stylesheet" href="{{asset('css/select2/all.min.css')}}">
+        <link rel="stylesheet" href="{{asset('css/select2/bootstrap.min.css')}}">
+        <link rel="stylesheet" href="{{asset('css/custom.css')}}">
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
@@ -32,5 +39,14 @@
                 {{ $slot }}
             </main>
         </div>
+
+        <!-- Scripts -->
+        <script src="{{asset('js/jquery/all.min.js')}}"></script>
+        <script src="{{asset('js/bootstrap/popper.min.js')}}"></script>
+        <script src="{{asset('js/bootstrap/all.bundle.min.js')}}"></script>
+        <script src="{{asset('js/select2/all.min.js')}}"></script>
+        <script src="{{asset('js/custom.js')}}"></script>
+    
+        @yield('page-script')
     </body>
 </html>
