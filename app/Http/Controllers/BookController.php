@@ -146,4 +146,82 @@ class BookController extends Controller
             return redirect()->back()->with('error', 'Something went wrong.');
         }
     }
+
+    // user
+
+    public function books()
+    {
+        $books = Book::orderBy('id', 'DESC')->get();
+        $cart = session('cart');
+
+        return view('book.list', compact('books', 'cart'));
+    }
+
+    public function addToCart(Request $request)
+    {
+        try {
+            $cart = session('cart');
+        
+            if ($cart) {
+                $cart[$request->id] = 1;
+            } else {
+                $cart = array( $request->id => 1 );
+            }
+        
+            session(['cart' => $cart]);
+            info(session('cart'));
+
+            return response()->json([
+                'success' => true
+            ], 200);
+        } catch (\Throwable $th) {
+            info($th);
+            return response()->json([
+                'success' => false
+            ], 500);
+        }
+    }
+
+    public function removeFromCart(Request $request)
+    {
+        try {
+            $cart = session('cart');
+        
+            if ($cart) {
+                unset($cart[$request->id]);
+                session(['cart' => $cart]);
+                info(session('cart'));
+            }
+
+            return response()->json([
+                'success' => true
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false
+            ], 500);
+        }
+    }
+
+    public function changeQuantity(Request $request)
+    {
+        try {
+            $cart = session('cart');
+            
+            if ($cart) {
+                $cart[$request->id] = intval($request->quantity);
+                session(['cart' => $cart]);
+                info(session('cart'));
+            }
+            
+            return response()->json([
+                'success' => true
+            ], 200);
+        } catch (\Throwable $th) {
+            info($th);
+            return response()->json([
+                'success' => false
+            ], 500);
+        }
+    }
 }

@@ -24,6 +24,12 @@
                         Books
                     </x-nav-link>
                     @endcan
+
+                    @can('role', 'user')
+                    <x-nav-link :href="route('books')" :active="request()->is('books*')">
+                        Books
+                    </x-nav-link>
+                    @endcan
                 </div>
             </div>
 

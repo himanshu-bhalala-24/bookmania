@@ -29,12 +29,21 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
+    // admin routes
     Route::middleware(['role:admin'])->group(function () {
         // category
         Route::resource('/category', CategoryController::class);
     
         // book
         Route::resource('/book', BookController::class);
+    });
+
+    // user routes
+    Route::middleware(['role:user'])->group(function () {
+        Route::get('/books', [BookController::class, 'books'])->name('books');
+        Route::post('/add-to-cart', [BookController::class, 'addToCart'])->name('cart.add');
+        Route::post('/remove-from-cart', [BookController::class, 'removeFromCart'])->name('cart.remove');
+        Route::post('/change-quantity', [BookController::class, 'changeQuantity'])->name('cart.quantity');
     });
 });
 
