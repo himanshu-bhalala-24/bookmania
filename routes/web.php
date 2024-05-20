@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,6 +47,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/remove-from-cart', [BookController::class, 'removeFromCart'])->name('cart.remove');
         Route::post('/change-quantity', [BookController::class, 'changeQuantity'])->name('cart.quantity');
         Route::get('/empty-cart', [BookController::class, 'emptyCart'])->name('cart.empty');
+
+        // order
+        Route::resource('/order', OrderController::class);
     });
 });
 

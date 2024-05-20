@@ -151,7 +151,7 @@ class BookController extends Controller
 
     public function books()
     {
-        $books = Book::orderBy('id', 'DESC')->get();
+        $books = Book::latest('id')->get();
         $cart = session('cart');
 
         return view('book.list', compact('books', 'cart'));
@@ -166,7 +166,7 @@ class BookController extends Controller
             $bookIds = array_keys($cart);
         }
 
-        $books = Book::whereIn('id', $bookIds)->orderBy('id', 'DESC')->get();
+        $books = Book::whereIn('id', $bookIds)->latest('id')->get();
 
         return view('book.cart', compact('books', 'cart'));
     }

@@ -29,6 +29,9 @@
                     <x-nav-link :href="route('books')" :active="request()->is('books*')">
                         Books
                     </x-nav-link>
+                    <x-nav-link :href="route('order.index')" :active="request()->is('order*')">
+                        Orders
+                    </x-nav-link>
                     @endcan
                 </div>
             </div>

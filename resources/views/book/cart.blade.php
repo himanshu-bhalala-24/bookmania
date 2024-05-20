@@ -59,6 +59,11 @@
                         <h5><strong id="cart-total"></strong> <span class="badge text-bg-dark">Total</span></h5>
                     </div>
                 </div>
+                <div class="col-md-12">
+                    <div class="d-flex flex-row-reverse">
+                        <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#checkout-modal">Checkout</a>
+                    </div>
+                </div>
             @else
                 <div class="col-md-12">
                     <h2>Your cart is empty...</h2>
@@ -67,9 +72,59 @@
         </div>
     </div>
 
+    <div class="modal fade" id="checkout-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="checkout-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="delete-book-modal-label">Order details</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @if ($errors->any())
+                    <div class="alert alert-danger flash-msg">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
+                    <form method="POST" action="{{ route('order.store') }}">
+                        @csrf
+        
+                        {{-- name --}}
+                        <div class="mt-3">
+                            <label class="form-label">User's name</label>
+                            <input type="text" name="name" class="form-control" value="{{old('name')}}" required>
+                        </div>
+                        
+                        {{-- email --}}
+                        <div class="mt-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" value="{{old('email')}}" required>
+                        </div>
+
+                        {{-- address --}}
+                        <div class="mt-3">
+                            <label class="form-label">Address</label>
+                            <textarea class="form-control" name="address" rows="3" required>{{old('address')}}</textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary mt-3">Place an order</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @section('page-script')
     <script>
         $(function() {
+            const valdErrors = "{{$errors->any()}}";
+            if (valdErrors) {
+                $('#checkout-modal').modal('show');
+            }
+            
             @include('common.cart-js')
             changeTotal();
 
