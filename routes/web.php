@@ -41,9 +41,11 @@ Route::middleware('auth')->group(function () {
     // user routes
     Route::middleware(['role:user'])->group(function () {
         Route::get('/books', [BookController::class, 'books'])->name('books');
+        Route::get('/cart', [BookController::class, 'cart'])->name('cart');
         Route::post('/add-to-cart', [BookController::class, 'addToCart'])->name('cart.add');
         Route::post('/remove-from-cart', [BookController::class, 'removeFromCart'])->name('cart.remove');
         Route::post('/change-quantity', [BookController::class, 'changeQuantity'])->name('cart.quantity');
+        Route::get('/empty-cart', [BookController::class, 'emptyCart'])->name('cart.empty');
     });
 });
 

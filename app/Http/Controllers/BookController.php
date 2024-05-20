@@ -157,6 +157,27 @@ class BookController extends Controller
         return view('book.list', compact('books', 'cart'));
     }
 
+    public function cart()
+    {
+        $cart = session('cart');
+        $bookIds = array();
+
+        if ($cart && !empty($cart)) {
+            $bookIds = array_keys($cart);
+        }
+
+        $books = Book::whereIn('id', $bookIds)->orderBy('id', 'DESC')->get();
+
+        return view('book.cart', compact('books', 'cart'));
+    }
+
+    public function emptyCart()
+    {
+        session()->forget('cart');
+
+        return redirect()->route('books')->with('success', 'Your cart was emptied...');
+    }
+
     public function addToCart(Request $request)
     {
         try {
@@ -209,7 +230,14 @@ class BookController extends Controller
             $cart = session('cart');
             
             if ($cart) {
-                $cart[$request->id] = intval($request->quantity);
+                if ($request->isIncrease) {
+                    $cart[$request->id] += 1;
+                } else {
+                    if ($cart[$request->id] > 1) {
+                        $cart[$request->id] -= 1;
+                    }
+                }
+                
                 session(['cart' => $cart]);
                 info(session('cart'));
             }
