@@ -51,6 +51,7 @@ class OrderController extends Controller
                     $orderBook->order_id = $order->id;
                     $orderBook->book_id = $id;
                     $orderBook->quantity = $quantity;
+                    $orderBook->price = Book::find($id)->price;
                     $orderBook->save();
                 }
             }

@@ -39,7 +39,7 @@ class BookController extends Controller
                 'category' => 'required|numeric',
                 'book' => 'required|string|max:30',
                 'description' => 'required|string|max:300',
-                'price' => 'required|numeric',
+                'price' => 'required|decimal:0,2',
                 'author' => 'required|string|max:30',
             ]);
 
@@ -99,7 +99,7 @@ class BookController extends Controller
                 'category' => 'required|numeric',
                 'book' => 'required|string|max:30',
                 'description' => 'required|string|max:300',
-                'price' => 'required|numeric',
+                'price' => 'required|decimal:0,2',
                 'author' => 'required|string|max:30',
             ]);
 

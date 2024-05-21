@@ -17,9 +17,9 @@ class Order extends Model
 
     public function getTotalAttribute()
     {
-        return $this->orderBooks->sum(function ($orderBook) {
-            return $orderBook->quantity * $orderBook->book->price;
-        });
+        return number_format($this->orderBooks->sum(function ($orderBook) {
+            return $orderBook->quantity * $orderBook->price;
+        }), 2, '.', '');
     }
 
     public function orderBooks()

@@ -45,7 +45,7 @@
                     {{-- price --}}
                     <div class="mt-3">
                         <label class="form-label">Price</label>
-                        <input type="number" name="price" class="form-control" value="{{old('price') ?? $book->price}}" required>
+                        <input type="number" name="price" class="form-control" value="{{old('price') ?? $book->price}}" step="0.01" required>
                     </div>
 
                     {{-- author --}}

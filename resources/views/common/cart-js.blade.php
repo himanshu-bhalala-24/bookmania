@@ -26,7 +26,7 @@ $(document).on('click', '.quantity-change', function () {
 
             // for cart page
             if ($('#cart-table').length > 0) {
-                $(`#book-total-${id}`).text(quantityElem.data('book-price') * parseInt(quantityElem.val()));
+                $(`#book-total-${id}`).text((quantityElem.data('book-price') * parseInt(quantityElem.val())).toFixed(2));
                 changeTotal();
             }
         },

@@ -54,8 +54,8 @@
                                         <th class="text-nowrap">{{$loop->iteration}}</th>
                                         <td><strong>{{$orderBook->book->name}}</strong> <i>({{$orderBook->book->category->name}})</i> - <strong>{{$orderBook->book->author}}</strong> <br> {{$orderBook->book->description}}</td>
                                         <td>{{$orderBook->quantity}}</td>
-                                        <td class="text-nowrap">{{$orderBook->book->price}}</td>
-                                        <td class="text-nowrap">{{$orderBook->book->price * $orderBook->quantity}}</td>
+                                        <td class="text-nowrap">{{$orderBook->price}}</td>
+                                        <td class="text-nowrap">{{$orderBook->total}}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>

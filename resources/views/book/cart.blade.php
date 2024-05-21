@@ -40,7 +40,7 @@
                                 </div>
                             </td>
                             <td class="text-nowrap">{{$book->price}}</td>
-                            <td class="text-nowrap book-total" id="book-total-{{$book->id}}">{{$book->price * $cart[$book->id]}}</td>
+                            <td class="text-nowrap book-total" id="book-total-{{$book->id}}">{{number_format(($book->price * $cart[$book->id]), 2, '.', '')}}</td>
                             <td class="text-nowrap">
                                 <div class="d-flex justify-content-evenly">
                                     {{-- delete --}}
@@ -162,7 +162,7 @@
                     total += value;
                 });
                 
-                $('#cart-total').text(total);
+                $('#cart-total').text(total.toFixed(2));
             }
         });
     </script>
