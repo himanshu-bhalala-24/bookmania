@@ -47,13 +47,13 @@ class BookController extends Controller
                 return redirect()->back()->withErrors($validator)->withInput();
             }
 
-            $book = new Book();
-            $book->category_id = $request->category;
-            $book->name = $request->book;
-            $book->description = $request->description;
-            $book->price = $request->price;
-            $book->author = $request->author;
-            $book->save();
+            Book::create([
+                'category_id' => $request->category,
+                'name' => $request->book,
+                'description' => $request->description,
+                'price' => $request->price,
+                'author' => $request->author
+            ]);
             
             return redirect()->route('book.index')->with('success', 'Book created successfully.');
         } catch (\Throwable $th) {
@@ -110,12 +110,13 @@ class BookController extends Controller
             $book = Book::find($id);
 
             if ($book) {
-                $book->category_id = $request->category;
-                $book->name = $request->book;
-                $book->description = $request->description;
-                $book->price = $request->price;
-                $book->author = $request->author;
-                $book->save();
+                $book->update([
+                    'category_id' => $request->category,
+                    'name' => $request->book,
+                    'description' => $request->description,
+                    'price' => $request->price,
+                    'author' => $request->author
+                ]);
 
                 return redirect()->route('book.index')->with('success', 'Book updated successfully.');
             }

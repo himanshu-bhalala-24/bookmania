@@ -10,6 +10,13 @@ class Order extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'name',
+        'email',
+        'address'
+    ];
+
     public function getCreatedAtAttribute($value)
     {
         return Carbon::parse($value)->format('jS M, Y');
@@ -20,6 +27,11 @@ class Order extends Model
         return number_format($this->orderBooks->sum(function ($orderBook) {
             return $orderBook->quantity * $orderBook->price;
         }), 2, '.', '');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function orderBooks()

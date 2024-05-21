@@ -40,9 +40,9 @@ class CategoryController extends Controller
                 return redirect()->back()->withErrors($validator)->withInput();
             }
 
-            $category = new Category();
-            $category->name = $request->category;
-            $category->save();
+            Category::create([
+                'name' => $request->category
+            ]);
             
             return redirect()->route('category.index')->with('success', 'Category created successfully.');
         } catch (\Throwable $th) {
@@ -86,8 +86,9 @@ class CategoryController extends Controller
             $category = Category::find($id);
 
             if ($category) {
-                $category->name = $request->category;
-                $category->save();
+                $category->update([
+                    'name' => $request->category
+                ]);
 
                 return redirect()->route('category.index')->with('success', 'Category updated successfully.');
             }
