@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedInteger('quantity');
             $table->decimal('price', 10, 2);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

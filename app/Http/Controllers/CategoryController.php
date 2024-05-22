@@ -13,7 +13,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $data = Category::paginate(10);
+        $data = Category::withTrashed()->paginate(10);
 
         return view('category.index', compact('data'));
     }
@@ -57,7 +57,7 @@ class CategoryController extends Controller
     public function edit(string $id)
     {
         try {
-            $category = Category::find($id);
+            $category = Category::withTrashed()->find($id);
 
             if ($category) {
                 return view('category.edit', compact('category'));
@@ -83,7 +83,7 @@ class CategoryController extends Controller
                 return redirect()->back()->withErrors($validator)->withInput();
             }
             
-            $category = Category::find($id);
+            $category = Category::withTrashed()->find($id);
 
             if ($category) {
                 $category->update([
@@ -112,6 +112,23 @@ class CategoryController extends Controller
                 $category->delete();
 
                 return redirect()->back()->with('success', 'Category deleted successfully.');
+            }
+
+            return redirect()->back()->with('error', 'Category not found.');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'Something went wrong.');
+        }
+    }
+
+    public function restore($id)
+    {
+        try {
+            $category = Category::withTrashed()->find($id);
+
+            if ($category) {
+                $category->restore();
+
+                return redirect()->back()->with('success', 'Category restored successfully.');
             }
 
             return redirect()->back()->with('error', 'Category not found.');

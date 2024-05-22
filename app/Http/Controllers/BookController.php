@@ -14,7 +14,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $data = Book::paginate(10);
+        $data = Book::withTrashed()->paginate(10);
 
         return view('book.index', compact('data'));
     }
@@ -76,8 +76,8 @@ class BookController extends Controller
     public function edit(string $id)
     {
         try {
-            $categories = Category::get();
-            $book = Book::find($id);
+            $categories = Category::withTrashed()->get();
+            $book = Book::withTrashed()->find($id);
 
             if ($book) {
                 return view('book.edit', compact('categories', 'book'));
@@ -107,7 +107,7 @@ class BookController extends Controller
                 return redirect()->back()->withErrors($validator)->withInput();
             }
             
-            $book = Book::find($id);
+            $book = Book::withTrashed()->find($id);
 
             if ($book) {
                 $book->update([
@@ -140,6 +140,23 @@ class BookController extends Controller
                 $book->delete();
 
                 return redirect()->back()->with('success', 'Book deleted successfully.');
+            }
+
+            return redirect()->back()->with('error', 'Book not found.');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'Something went wrong.');
+        }
+    }
+
+    public function restore($id)
+    {
+        try {
+            $book = Book::withTrashed()->find($id);
+
+            if ($book) {
+                $book->restore();
+
+                return redirect()->back()->with('success', 'Book restored successfully.');
             }
 
             return redirect()->back()->with('error', 'Book not found.');

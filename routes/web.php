@@ -34,9 +34,11 @@ Route::middleware('auth')->group(function () {
     Route::middleware(['role:admin'])->group(function () {
         // category
         Route::resource('/category', CategoryController::class);
+        Route::put('/category/{category}/restore', [CategoryController::class, 'restore'])->name('category.restore');
     
         // book
         Route::resource('/book', BookController::class);
+        Route::put('/book/{book}/restore', [BookController::class, 'restore'])->name('book.restore');
     });
 
     // user routes
