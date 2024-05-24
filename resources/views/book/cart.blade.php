@@ -1,5 +1,6 @@
 <x-app-layout>
     <div class="container mt-4">
+        @include('layouts.flash')
         <div class="row">
             @if (count($books))
                 <div class="col-md-12">
@@ -29,7 +30,7 @@
                             <td>
                                 <div class="input-group">
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-danger btn-number quantity-change" data-book-id="{{$book->id}}" data-increase="false">
+                                        <button type="button" id="decrease-quantity-{{$book->id}}" class="btn btn-danger btn-number quantity-change" data-book-id="{{$book->id}}" data-increase="false" @disabled($cart[$book->id] == 1)>
                                             <i class="fa-solid fa-minus"></i>
                                         </button>
                                     </span>
@@ -82,15 +83,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    @if ($errors->any())
-                    <div class="alert alert-danger flash-msg">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    @endif
+                    @include('common.validation')
+                    
                     <form method="POST" action="{{ route('order.store') }}">
                         @csrf
         
@@ -118,6 +112,8 @@
             </div>
         </div>
     </div>
+
+    @include('common.toast')
 
     @section('page-script')
     <script>

@@ -46,6 +46,26 @@ class OrderController extends Controller
             $cart = session('cart');
 
             if ($cart && !empty($cart)) {
+                $uBooks = array();
+                
+                foreach ($cart as $id => $quantity) {
+                    $book = Book::find($id);
+
+                    if ($book->quantity < $quantity) {
+                        $uBooks[$book->name] = $book->quantity;
+                    }
+                }
+
+                if (count($uBooks)) {
+                    $message = '';
+
+                    foreach ($uBooks as $book => $quantity) {
+                        $message .= 'Available quantity for ' . $book . ' is ' . $quantity . '<br>';
+                    }
+
+                    return redirect()->back()->with('error', $message);
+                }
+
                 foreach ($cart as $id => $quantity) {
                     $book = Book::find($id);
                 
@@ -54,6 +74,9 @@ class OrderController extends Controller
                         'quantity' => $quantity,
                         'price' => $book->price
                     ]);
+
+                    $book->decrement('quantity', $quantity);
+                    $book->save();
                 }
             }
 

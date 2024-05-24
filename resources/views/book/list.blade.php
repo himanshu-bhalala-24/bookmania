@@ -22,7 +22,7 @@
                                     <div class="col-md-6 quantity-div-{{$book->id}}">
                                         <div class="input-group">
                                             <span class="input-group-btn">
-                                                <button type="button" class="btn btn-danger btn-number quantity-change" data-book-id="{{$book->id}}" data-increase="false">
+                                                <button type="button" id="decrease-quantity-{{$book->id}}" class="btn btn-danger btn-number quantity-change" data-book-id="{{$book->id}}" data-increase="false" @disabled($cart[$book->id] == 1)>
                                                     <i class="fa-solid fa-minus"></i>
                                                 </button>
                                             </span>
@@ -34,6 +34,10 @@
                                             </span>
                                         </div>
                                     </div>
+                                @elseif ($book->quantity == 0)
+                                    <div class="col-md-6">
+                                        <span class="badge text-bg-danger">Out of stock</span>
+                                    </div>
                                 @else
                                     <div class="col-md-6">
                                         <button type="button" class="btn btn-primary add-to-cart book-btn-{{$book->id}}" data-book-id="{{$book->id}}" data-action-url="{{route('cart.add')}}">Add to cart</button>
@@ -41,7 +45,7 @@
                                     <div class="col-md-6 hidden quantity-div-{{$book->id}}">
                                         <div class="input-group">
                                             <span class="input-group-btn">
-                                                <button type="button" class="btn btn-danger btn-number quantity-change" data-book-id="{{$book->id}}" data-increase="false">
+                                                <button type="button" id="decrease-quantity-{{$book->id}}" class="btn btn-danger btn-number quantity-change" data-book-id="{{$book->id}}" data-increase="false">
                                                     <i class="fa-solid fa-minus"></i>
                                                 </button>
                                             </span>
@@ -66,6 +70,8 @@
             @endif
         </div>
     </div>
+
+    @include('common.toast')
 
     @section('page-script')
     <script>
@@ -102,6 +108,7 @@
                         .text('Remove from cart');
 
                     $(`.quantity-div-${id}`).show().val(1);
+                    $(`#decrease-quantity-${id}`).prop('disabled', true);
                 } else {
                     bookBtn.attr('data-action-url', "{{route('cart.add')}}")
                         .addClass('btn-primary add-to-cart')

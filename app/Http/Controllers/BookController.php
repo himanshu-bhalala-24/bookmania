@@ -43,6 +43,7 @@ class BookController extends Controller
                 'description' => 'required|string|max:300',
                 'price' => 'required|decimal:0,2',
                 'author' => 'required|string|max:30',
+                'quantity' => 'required|numeric|min:1',
             ]);
 
             if ($validator->fails()) {
@@ -60,7 +61,8 @@ class BookController extends Controller
                 'name' => $request->book,
                 'description' => $request->description,
                 'price' => $request->price,
-                'author' => $request->author
+                'author' => $request->author,
+                'quantity' => $request->quantity,
             ]);
             
             return redirect()->route('book.index')->with('success', 'Book created successfully.');
@@ -110,6 +112,7 @@ class BookController extends Controller
                 'description' => 'required|string|max:300',
                 'price' => 'required|decimal:0,2',
                 'author' => 'required|string|max:30',
+                'quantity' => 'required|numeric|min:1',
             ]);
 
             if ($validator->fails()) {
@@ -135,7 +138,8 @@ class BookController extends Controller
                     'name' => $request->book,
                     'description' => $request->description,
                     'price' => $request->price,
-                    'author' => $request->author
+                    'author' => $request->author,
+                    'quantity' => $request->quantity,
                 ]);
 
                 return redirect()->route('book.index')->with('success', 'Book updated successfully.');
@@ -269,7 +273,16 @@ class BookController extends Controller
             
             if ($cart) {
                 if ($request->isIncrease) {
-                    $cart[$request->id] += 1;
+                    $book = Book::find($request->id);
+
+                    if ($book->quantity >= ($cart[$request->id] + 1)) {
+                        $cart[$request->id] += 1;
+                    } else {
+                        return response()->json([
+                            'success' => false,
+                            'message' => 'Not available in stock.'
+                        ], 200);
+                    }
                 } else {
                     if ($cart[$request->id] > 1) {
                         $cart[$request->id] -= 1;

@@ -17,6 +17,7 @@
                             <th class="text-nowrap" scope="col">Category</th>
                             <th class="text-nowrap" scope="col">Author</th>
                             <th class="text-nowrap" scope="col">Price</th>
+                            <th class="text-nowrap" scope="col">Quantity</th>
                             <th class="text-nowrap" scope="col">Action</th>
                         </tr>
                     </thead>
@@ -29,6 +30,7 @@
                             <td class="text-nowrap">{{$book->category->name}}</td>
                             <td class="text-nowrap">{{$book->author}}</td>
                             <td class="text-nowrap">{{$book->price}}</td>
+                            <td class="text-nowrap">{{$book->quantity}}</td>
                             <td>
                                 <div class="d-flex justify-content-evenly">
                                     {{-- edit --}}

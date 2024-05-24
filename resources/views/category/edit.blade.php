@@ -4,15 +4,7 @@
             <div class="col-md-8">
                 @include('layouts.flash')
     
-                @if ($errors->any())
-                <div class="alert alert-danger flash-msg">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-                @endif
+                @include('common.validation')
     
                 <form method="POST" action="{{ route('category.update', $category->id) }}">
                     @csrf

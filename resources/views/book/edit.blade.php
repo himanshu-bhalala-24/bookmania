@@ -4,15 +4,7 @@
             <div class="col-md-8">
                 @include('layouts.flash')
     
-                @if ($errors->any())
-                <div class="alert alert-danger flash-msg">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-                @endif
+                @include('common.validation')
     
                 <form method="POST" action="{{ route('book.update', $book->id) }}" enctype="multipart/form-data">
                     @csrf
@@ -64,7 +56,12 @@
                         <label class="form-label">Author</label>
                         <input type="text" name="author" class="form-control" value="{{old('author') ?? $book->author}}" required>
                     </div>
-
+                    
+                    {{-- quantity --}}
+                    <div class="mt-3">
+                        <label class="form-label">Quantity</label>
+                        <input type="number" name="quantity" class="form-control" min="1" value="{{old('quantity') ?? $book->quantity}}" required />
+                    </div>
                     
                     <button type="submit" class="btn btn-primary mt-3">Submit</button>
                 </form>
