@@ -5,7 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use App\Observers\CategoryObserver;
 
+#[ObservedBy([CategoryObserver::class])]
 class Category extends Model
 {
     use HasFactory, SoftDeletes;
@@ -13,21 +16,6 @@ class Category extends Model
     protected $fillable = [
         'name'
     ];
-
-    protected static function booted()
-    {
-        static::deleting(function (Category $category) {
-            $category->books()->each(function ($book) {
-                $book->delete();
-            });
-        });
-
-        static::restoring(function (Category $category) {
-            $category->books()->withTrashed()->each(function ($book) {
-                $book->restore();
-            });
-        });
-    }
 
     public function books()
     {
