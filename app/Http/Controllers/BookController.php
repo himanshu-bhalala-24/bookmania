@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Storage;
 use App\Models\Book;
 use App\Models\Category;
 
@@ -36,6 +37,7 @@ class BookController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
+                'image' => 'required|image|max:1024',
                 'category' => 'required|numeric',
                 'book' => 'required|string|max:30',
                 'description' => 'required|string|max:300',
@@ -47,8 +49,14 @@ class BookController extends Controller
                 return redirect()->back()->withErrors($validator)->withInput();
             }
 
+            $image = $request->file('image');
+            $imageFilename = 'book-' . now()->timestamp . '.' . $image->getClientOriginalExtension();
+            $imageFilepath = 'books/' . $imageFilename;
+            Storage::disk('public')->put($imageFilepath, file_get_contents($image), 'public');
+
             Book::create([
                 'category_id' => $request->category,
+                'image' => $imageFilename,
                 'name' => $request->book,
                 'description' => $request->description,
                 'price' => $request->price,
@@ -96,6 +104,7 @@ class BookController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
+                'image' => 'sometimes|image|max:1024',
                 'category' => 'required|numeric',
                 'book' => 'required|string|max:30',
                 'description' => 'required|string|max:300',
@@ -110,6 +119,17 @@ class BookController extends Controller
             $book = Book::withTrashed()->find($id);
 
             if ($book) {
+                if ($request->has('image')) {
+                    Storage::disk('public')->delete('books/' . $book->image);
+
+                    $image = $request->file('image');
+                    $imageFilename = 'book-' . now()->timestamp . '.' . $image->getClientOriginalExtension();
+                    $imageFilepath = 'books/' . $imageFilename;
+                    Storage::disk('public')->put($imageFilepath, file_get_contents($image), 'public');
+                    
+                    $book->image = $imageFilename;
+                }
+
                 $book->update([
                     'category_id' => $request->category,
                     'name' => $request->book,

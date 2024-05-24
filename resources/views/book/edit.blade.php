@@ -14,10 +14,21 @@
                 </div>
                 @endif
     
-                <form method="POST" action="{{ route('book.update', $book->id) }}">
+                <form method="POST" action="{{ route('book.update', $book->id) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PATCH')
     
+                    {{-- image --}}
+                    <div class="row mt-3">
+                        <div class="col-md-10">
+                            <label class="form-label">Image</label>
+                            <input type="file" name="image" class="form-control" id="image" />
+                        </div>
+                        <div class="col-md-2">
+                            <img id="image-preview" src="{{\Storage::disk('public')->url('books/' . $book->image)}}" alt="image" width="100">
+                        </div>
+                    </div>
+                    
                     {{-- category --}}
                     <div class="mt-3">
                         <label class="form-label">Category</label>
@@ -60,4 +71,12 @@
             </div>
         </div>
     </div>
+
+    @section('page-script')
+    <script>
+        $(function() {
+            @include('common.book-js')
+        });
+    </script>
+    @endsection
 </x-app-layout>

@@ -19,7 +19,7 @@
                     <tbody>
                         @foreach ($data as $category)
                         <tr>
-                            <th class="text-nowrap">{{$loop->iteration}}</th>
+                            <td class="text-nowrap">{{$loop->iteration}}</td>
                             <td class="text-nowrap">{{$category->name}}</td>
                             <td>
                                 <div class="d-flex justify-content-evenly">

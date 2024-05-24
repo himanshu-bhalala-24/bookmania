@@ -7,6 +7,8 @@
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-body">
+                            <img src="{{\Storage::disk('public')->url('books/' . $book->image)}}" alt="image" width="120">
+                            <hr>
                             <h5 class="card-title">{{$book->name}} - <span class="fw-normal">{{$book->category->name}}</span></h5>
                             <p class="card-text">{{$book->description}}</p>
                             <p class="card-text"><strong>Author: </strong>{{$book->author}}</p>

@@ -12,6 +12,7 @@
                     <thead>
                         <tr class="table-secondary">
                             <th class="text-nowrap" scope="col">#</th>
+                            <th class="text-nowrap" scope="col">Image</th>
                             <th class="text-nowrap" scope="col">Name</th>
                             <th class="text-nowrap" scope="col">Category</th>
                             <th class="text-nowrap" scope="col">Author</th>
@@ -22,7 +23,8 @@
                     <tbody>
                         @foreach ($data as $book)
                         <tr>
-                            <th class="text-nowrap">{{$loop->iteration}}</th>
+                            <td class="text-nowrap">{{$loop->iteration}}</td>
+                            <td class="text-nowrap"><img src="{{\Storage::disk('public')->url('books/' . $book->image)}}" alt="image" width="70"></td>
                             <td class="text-nowrap">{{$book->name}}</td>
                             <td class="text-nowrap">{{$book->category->name}}</td>
                             <td class="text-nowrap">{{$book->author}}</td>

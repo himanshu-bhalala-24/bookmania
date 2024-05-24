@@ -14,8 +14,19 @@
                 </div>
                 @endif
     
-                <form method="POST" action="{{ route('book.store') }}">
+                <form method="POST" action="{{ route('book.store') }}" enctype="multipart/form-data">
                     @csrf
+
+                    {{-- image --}}
+                    <div class="row mt-3">
+                        <div class="col-md-10">
+                            <label class="form-label">Image</label>
+                            <input type="file" name="image" class="form-control" id="image" required />
+                        </div>
+                        <div class="col-md-2">
+                            <img id="image-preview" class="d-none" alt="image" width="100">
+                        </div>
+                    </div>
     
                     {{-- category --}}
                     <div class="mt-3">
@@ -59,4 +70,12 @@
             </div>
         </div>
     </div>
+
+    @section('page-script')
+    <script>
+        $(function() {
+            @include('common.book-js')
+        });
+    </script>
+    @endsection
 </x-app-layout>

@@ -42,6 +42,7 @@
                                 <thead>
                                     <tr class="table-secondary">
                                         <th class="text-nowrap" scope="col">#</th>
+                                        <th class="text-nowrap" scope="col">Image</th>
                                         <th scope="col">Book</th>
                                         <th class="text-nowrap" scope="col" width="200">Quantity</th>
                                         <th class="text-nowrap" scope="col" width="100">Price</th>
@@ -51,7 +52,8 @@
                                 <tbody>
                                     @foreach ($order->orderBooks as $orderBook)
                                     <tr>
-                                        <th class="text-nowrap">{{$loop->iteration}}</th>
+                                        <td class="text-nowrap">{{$loop->iteration}}</td>
+                                        <td class="text-nowrap"><img src="{{\Storage::disk('public')->url('books/' . $orderBook->book->image)}}" alt="image" width="70"></td>
                                         <td><strong>{{$orderBook->book->name}}</strong> <i>({{$orderBook->book->category->name}})</i> - <strong>{{$orderBook->book->author}}</strong> <br> {{$orderBook->book->description}}</td>
                                         <td>{{$orderBook->quantity}}</td>
                                         <td class="text-nowrap">{{$orderBook->price}}</td>
