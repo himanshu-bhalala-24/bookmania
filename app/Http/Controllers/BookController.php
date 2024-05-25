@@ -242,7 +242,6 @@ class BookController extends Controller
             }
         
             session(['cart' => $cart]);
-            info(session('cart'));
 
             return response()->json([
                 'success' => true
@@ -263,7 +262,6 @@ class BookController extends Controller
             if ($cart) {
                 unset($cart[$request->id]);
                 session(['cart' => $cart]);
-                info(session('cart'));
             }
 
             return response()->json([
@@ -300,7 +298,6 @@ class BookController extends Controller
                 }
                 
                 session(['cart' => $cart]);
-                info(session('cart'));
             }
             
             return response()->json([

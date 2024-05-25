@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Mail;
 use App\Models\Book;
 use App\Models\Order;
 use App\Models\OrderBook;
+use App\Mail\OrderConfirmation;
 
 class OrderController extends Controller
 {
@@ -79,6 +81,8 @@ class OrderController extends Controller
                     $book->save();
                 }
             }
+
+            Mail::to($order->email)->send(new OrderConfirmation($order));
 
             session()->forget('cart');
             
