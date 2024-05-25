@@ -72,6 +72,8 @@
                     </div>
                 </div>
                 @endforeach
+
+                {{ $orders->links() }}
             @else
                 <div class="col-md-12">
                     <h2>No orders available...</h2>

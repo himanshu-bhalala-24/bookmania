@@ -15,7 +15,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = auth()->user()->orders()->latest('id')->get();
+        $orders = auth()->user()->orders()->latest('id')->paginate(5);
 
         return view('order.index', compact('orders'));
     }
@@ -36,13 +36,6 @@ class OrderController extends Controller
                 return redirect()->back()->withErrors($validator)->withInput();
             }
             
-            $order = Order::create([
-                'user_id' => auth()->id(),
-                'name' => $request->name,
-                'email' => $request->email,
-                'address' => $request->address,
-            ]);
-
             $cart = session('cart');
 
             if ($cart && !empty($cart)) {
@@ -65,6 +58,13 @@ class OrderController extends Controller
 
                     return redirect()->back()->with('error', $message);
                 }
+
+                $order = Order::create([
+                    'user_id' => auth()->id(),
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'address' => $request->address,
+                ]);
 
                 foreach ($cart as $id => $quantity) {
                     $book = Book::find($id);

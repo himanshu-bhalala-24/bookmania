@@ -2,9 +2,17 @@
     <div class="container mt-4">
         @include('layouts.flash')
         <div class="row">
+            <form action="{{route('books')}}" method="GET">
+                <div class="input-group mb-3">
+                    <input id="q" type="text" class="form-control" name="q" value="{{request()->get('q')}}" placeholder="Search">
+                    <button id="search-btn" class="btn btn-outline-secondary" type="submit" @disabled(!request()->get('q'))><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <a type="button" class="btn btn-outline-secondary" href="{{route('books')}}">Reset</a>
+                </div>
+            </form>
+
             @if (count($books))
                 @foreach ($books as $book)
-                <div class="col-md-4">
+                <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-body">
                             <img src="{{\Storage::disk('public')->url('books/' . $book->image)}}" alt="image" width="120">
@@ -63,6 +71,8 @@
                     </div>
                 </div>
                 @endforeach
+
+                {{ $books->links() }}
             @else
                 <div class="col-md-12">
                     <h2>No books available...</h2>
@@ -120,6 +130,17 @@
 
                 $(`.quantity-${id}`).val(1);
             }
+            
+            // search
+            $('#q').on('input', function() {
+                const q = $(this).val().trim();
+                
+                if (q.length > 0) {
+                    $('#search-btn').prop('disabled', false);
+                } else {
+                    $('#search-btn').prop('disabled', true);
+                }
+            });
         });
     </script>
     @endsection

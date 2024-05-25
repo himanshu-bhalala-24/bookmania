@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Storage;
+use DB;
 use App\Models\Book;
 use App\Models\Category;
 
@@ -15,7 +16,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $data = Book::withTrashed()->paginate(10);
+        $data = Book::withTrashed()->paginate(5);
 
         return view('book.index', compact('data'));
     }
@@ -191,9 +192,18 @@ class BookController extends Controller
 
     // user
 
-    public function books()
+    public function books(Request $request)
     {
-        $books = Book::latest('id')->get();
+        $books = Book::latest('id')
+            ->when($q = $request->q, function ($q1, $q) {
+                return $q1->where(DB::raw('LOWER(name)'), 'LIKE', '%' . strtolower($q) . '%')
+                    ->orWhereHas('category', function ($q2) use ($q) {
+                        $q2->where(DB::raw('LOWER(name)'), 'LIKE', '%' . strtolower($q) . '%');
+                    });
+            })
+            ->paginate(3)
+            ->withQueryString();
+
         $cart = session('cart');
 
         return view('book.list', compact('books', 'cart'));
