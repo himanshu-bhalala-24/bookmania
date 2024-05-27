@@ -24,7 +24,7 @@
                     {{-- category --}}
                     <div class="mt-3">
                         <label class="form-label">Category</label>
-                        <select class="form-select select2" name="category" required>
+                        <select class="form-select select2" name="category_id" required>
                             <option selected disabled>Select category</option>
                             @foreach ($categories as $category)
                             <option value="{{$category->id}}" @selected(old('category') ? (old('category') == $category->id) : ($book->category_id == $category->id))>{{$category->name}}</option>
@@ -35,7 +35,7 @@
                     {{-- book --}}
                     <div class="mt-3">
                         <label class="form-label">Name</label>
-                        <input type="text" name="book" class="form-control" value="{{old('book') ?? $book->name}}" required>
+                        <input type="text" name="name" class="form-control" value="{{old('book') ?? $book->name}}" required>
                     </div>
 
 

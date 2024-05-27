@@ -39,8 +39,8 @@ class BookController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'image' => 'required|image|max:1024',
-                'category' => 'required|numeric',
-                'book' => 'required|string|max:30',
+                'category_id' => 'required|numeric',
+                'name' => 'required|string|max:30',
                 'description' => 'required|string|max:300',
                 'price' => 'required|decimal:0,2',
                 'author' => 'required|string|max:30',
@@ -57,9 +57,9 @@ class BookController extends Controller
             Storage::disk('public')->put($imageFilepath, file_get_contents($image), 'public');
 
             Book::create([
-                'category_id' => $request->category,
+                'category_id' => $request->category_id,
                 'image' => $imageFilename,
-                'name' => $request->book,
+                'name' => $request->name,
                 'description' => $request->description,
                 'price' => $request->price,
                 'author' => $request->author,
@@ -108,8 +108,8 @@ class BookController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'image' => 'sometimes|image|max:1024',
-                'category' => 'required|numeric',
-                'book' => 'required|string|max:30',
+                'category_id' => 'required|numeric',
+                'name' => 'required|string|max:30',
                 'description' => 'required|string|max:300',
                 'price' => 'required|decimal:0,2',
                 'author' => 'required|string|max:30',
@@ -135,8 +135,8 @@ class BookController extends Controller
                 }
 
                 $book->update([
-                    'category_id' => $request->category,
-                    'name' => $request->book,
+                    'category_id' => $request->category_id,
+                    'name' => $request->name,
                     'description' => $request->description,
                     'price' => $request->price,
                     'author' => $request->author,
