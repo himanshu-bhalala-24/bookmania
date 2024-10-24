@@ -12,20 +12,10 @@ use App\Models\Book;
 
 class BookTest extends TestCase
 {
-    use RefreshDatabase;
-    
-    protected $seed = true;
-
     protected function setUp(): void
     {
         parent::setUp();
         
-        $this->admin = User::factory()->create();
-        $this->admin->assignRole('admin');
-
-        $this->user = User::factory()->create();
-        $this->user->assignRole('user');
-
         $this->category = Category::create([
             'name' => 'Test Category'
         ]);

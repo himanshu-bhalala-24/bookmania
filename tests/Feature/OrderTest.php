@@ -12,17 +12,10 @@ use App\Models\Order;
 
 class OrderTest extends TestCase
 {
-    use RefreshDatabase;
-    
-    protected $seed = true;
-
     protected function setUp(): void
     {
         parent::setUp();
         
-        $this->user = User::factory()->create();
-        $this->user->assignRole('user');
-
         $this->category = Category::create([
             'name' => 'Test Category'
         ]);
